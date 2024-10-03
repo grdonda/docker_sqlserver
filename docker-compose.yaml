@@ -1,0 +1,44 @@
+
+version: "3"
+services:
+  sqlserver:
+    container_name: dba_sqlserver
+    hostname: local.dba_sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+    environment:
+      - ACCEPT_EULA=Y   # Aceita os termos de licença da Microsoft
+
+      # Define a senha do usuário 'sa'
+      # Olhe o arquivo init.sql com usuario de acesso a base
+      - SA_PASSWORD=Y0urStr0ng!P4ssw0rd
+
+      - MSSQL_PID=Developer   # Usa a edição Developer, que é gratuita para desenvolvimento
+      - MSSQL_SSL_ENFORCED=false   # Desabilita SSL forçado
+
+    volumes:
+      - ./init.sql:/tmp/init.sql   # Monte o script SQL no container
+    #  - ./init.sql:/docker-entrypoint-initdb.d/init.sql   # Monta o arquivo init.sql para o container
+
+    # colocando o arquivo init.sql no container, ele será executado automaticamente
+    # caso der erro, podemos desabilitar o comando abaixo e acessar o container para verificar o path mssql-tools18/bin/sqlcmd
+    # e ajustar o comando manualmente
+    #command:
+    # - /bin/bash
+    # - -c
+    # - |
+    #    /opt/mssql/bin/sqlservr &
+    #    sleep 30s && /opt/mssql-tools18/bin/sqlcmd -C -S tcp:localhost,1433 -U sa -P Y0urStr0ng!P4ssw0rd -d master -i /tmp/init.sql
+
+    ports:
+      - 1433:1433
+
+    networks:
+      - net
+
+    # nao gosto desse comando, se cai ele reinicia e vc fica perdido no troubleshooting. melhor cair e analisar o que aconteceu
+    # restart: always
+
+networks:
+  net:
+    driver: bridge
