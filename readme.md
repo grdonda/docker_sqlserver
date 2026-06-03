@@ -4,7 +4,7 @@ Este projeto sobe um container com MSSQL Server instalado para estudar SQL para 
 
 ## Referencia
 ### Container
-[MSSQL Server container](https://hub.docker.com/r/microsoft/mssql-server)
+[MS SQL Server container](https://hub.docker.com/r/microsoft/mssql-server)
 
 ### Estudos
 [SQL Server 2022](https://learn.microsoft.com/pt-br/troubleshoot/sql/releases/download-and-install-latest-updates#sql-server-2022)
